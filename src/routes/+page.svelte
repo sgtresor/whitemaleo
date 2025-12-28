@@ -111,14 +111,22 @@ pm.environment.set("id", "1");
         Response
       </div>
       <div class="flex-1 overflow-auto p-4">
-        {#if error}
-          <div class="text-red-400 p-4 bg-red-900/20 rounded border border-red-900/50">
+        {#if loading}
+          <div class="flex flex-col items-center justify-center h-full text-gray-500">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500 mb-2"></div>
+            <span class="text-xs animate-pulse">Sending Request...</span>
+          </div>
+        {:else if error}
+          <div class="text-red-400 p-4 bg-red-900/20 rounded border border-red-900/50 font-mono text-xs">
             <strong>Error:</strong> {error}
           </div>
         {:else if response}
-          <pre class="text-emerald-300 whitespace-pre-wrap">{response}</pre>
+          <pre class="text-emerald-300 whitespace-pre-wrap font-mono text-xs">{response}</pre>
+
         {:else}
-          <div class="text-gray-600 text-center mt-10 italic">Hit Send to see response...</div>
+          <div class="text-gray-600 text-center mt-10 italic">
+            Hit <span class="text-emerald-500 font-bold">SEND</span> to see response...
+          </div>
         {/if}
       </div>
     </div>
