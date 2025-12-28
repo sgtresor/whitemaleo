@@ -45,7 +45,7 @@ export async function executeRequest(
     finalBody = finalBody.replace(regex, value);
   });
 
-  const response = await invoke('make_request', {
+  const response = await invoke<string>('make_request', {
     request: {
       method,
       url: finalUrl,
