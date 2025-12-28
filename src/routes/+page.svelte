@@ -47,7 +47,11 @@ pm.environment.set("id", "1");
   <header class="flex items-center gap-2 p-4 border-b border-gray-700 bg-gray-800">
     <div class="font-bold text-emerald-400 mr-4 tracking-widest">WHITEMALEO</div>
     
-    <select bind:value={method} class="bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-emerald-500 font-bold">
+    <select 
+      bind:value={method} 
+      style="color-scheme: dark;"
+      class="bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 focus:outline-none focus:border-emerald-500 font-bold cursor-pointer"
+    >
       <option value="GET">GET</option>
       <option value="POST">POST</option>
       <option value="PUT">PUT</option>
