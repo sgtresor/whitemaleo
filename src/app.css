@@ -3,5 +3,24 @@
 @tailwind utilities;
 
 body {
-    @apply bg-gray-900 text-white h-screen w-screen overflow-hidden;
+    /* bg-zinc-950: The deepest black/gray
+       text-zinc-50: High contrast text
+       antialiased: Makes the Jakarta Sans font look crisp 
+    */
+    @apply bg-zinc-950 text-zinc-50 h-screen w-screen overflow-hidden antialiased;
+}
+
+/* Optional: Make scrollbars darker to match the theme */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    @apply bg-zinc-950;
+}
+::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full border-2 border-zinc-950;
+}
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-700;
 }
