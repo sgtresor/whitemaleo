@@ -8,7 +8,8 @@
   import { json } from "@codemirror/lang-json";
   import { javascript } from "@codemirror/lang-javascript";
   import { oneDark } from "@codemirror/theme-one-dark";
-  import { EditorView } from "@codemirror/view";
+  import { EditorView, keymap } from "@codemirror/view";
+  import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 
   // State
   let method = "GET";
@@ -136,7 +137,11 @@ pm.environment.set("id", "1");`;
             bind:value={body} 
             lang={json()} 
             theme={oneDark} 
-            extensions={[transparentTheme]}
+            extensions={[
+              transparentTheme,
+              history(),
+              keymap.of([...defaultKeymap, ...historyKeymap])
+            ]}
             styles={{ "&": { height: "100%" } }}
           />
         {:else}
@@ -144,7 +149,11 @@ pm.environment.set("id", "1");`;
             bind:value={script} 
             lang={javascript()} 
             theme={oneDark} 
-            extensions={[transparentTheme]}
+            extensions={[
+              transparentTheme,
+              history(),
+              keymap.of([...defaultKeymap, ...historyKeymap])
+            ]}
             styles={{ "&": { height: "100%" } }}
           />
         {/if}
@@ -175,7 +184,10 @@ pm.environment.set("id", "1");`;
               lang={json()} 
               theme={oneDark} 
               readonly={true}
-              extensions={[transparentTheme]}
+              extensions={[
+                transparentTheme,
+                keymap.of([...defaultKeymap])
+              ]}
               styles={{ "&": { height: "100%" } }}
             />
           </div>
