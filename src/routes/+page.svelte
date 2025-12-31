@@ -21,6 +21,7 @@ pm.environment.set("id", "1");`;
   let error = "";
   let activeTab = "body"; 
   let appWindow: any;
+  let activeRequestId = 0;
 
   onMount(() => {
     appWindow = getCurrentWindow();
@@ -29,21 +30,34 @@ pm.environment.set("id", "1");`;
   const headers = { "Content-Type": "application/json" };
 
   async function handleSend() {
+    if (loading) {
+      loading = false;
+      activeRequestId++;
+      return;
+    }
+
     loading = true;
     error = "";
     response = "";
+    activeRequestId++;
+    const myRequestId = activeRequestId;
 
     try {
       const res = await executeRequest(method, url, headers, body, script);
+      if (activeRequestId !== myRequestId) return;
+      
       try {
-        response = JSON.stringify(JSON.parse(res), null, 2);
-      } catch {
-        response = res;
+        response = JSON.stringify(JSON.parse(res as string), null, 2);
+      } catch (error) {
+        response = res as string;
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (activeRequestId !== myRequestId) return;
       error = String(e);
     } finally {
-      loading = false;
+      if (activeRequestId === myRequestId) {
+        loading = false;
+      }
     }
   }
 
@@ -80,8 +94,11 @@ pm.environment.set("id", "1");`;
 
       <input bind:value={url} type="text" placeholder="https://api.example.com" class="pointer-events-auto flex-1 bg-zinc-950/50 text-zinc-100 px-4 py-2.5 rounded-lg border border-white/5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/20 transition-all placeholder-zinc-700 font-mono" />
 
-      <button on:click={handleSend} disabled={loading} class="pointer-events-auto bg-gradient-to-br from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white px-8 py-2.5 rounded-lg font-bold transition-all shadow-lg shadow-rose-900/20 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 border border-white/10 tracking-wide">
-        {loading ? "..." : "SEND"}
+      <button 
+        on:click={handleSend}
+        class="pointer-events-auto bg-gradient-to-br from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white px-8 py-2.5 rounded-lg font-bold transition-all shadow-lg shadow-rose-900/20 active:scale-95 border border-white/10 tracking-wide"
+      >
+        {loading ? "CANCEL" : "SEND"}
       </button>
 
       <div class="pointer-events-auto flex items-center gap-2 ml-2 pl-4 border-l border-white/5">
