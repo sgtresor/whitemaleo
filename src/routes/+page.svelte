@@ -1,3 +1,4 @@
+<svelte:window on:keydown={handleKeydown} />
 <script lang="ts">
   import { executeRequest } from '$lib/requestLogic'; 
   import { getCurrentWindow } from '@tauri-apps/api/window';
@@ -26,6 +27,13 @@ pm.environment.set("id", "1");`;
   onMount(() => {
     appWindow = getCurrentWindow();
   });
+
+  function handleKeydown(e: KeyboardEvent) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleSend();
+    }
+  }
 
   const headers = { "Content-Type": "application/json" };
 
