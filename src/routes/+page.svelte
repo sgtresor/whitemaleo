@@ -10,6 +10,7 @@
   import { oneDark } from "@codemirror/theme-one-dark";
   import { EditorView, keymap } from "@codemirror/view";
   import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+  import { Prec } from "@codemirror/state";
 
   // State
   let method = "GET";
@@ -28,13 +29,6 @@ pm.environment.set("id", "1");`;
   onMount(() => {
     appWindow = getCurrentWindow();
   });
-
-  function handleKeydown(e: KeyboardEvent) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      handleSend();
-    }
-  }
 
   const headers = { "Content-Type": "application/json" };
 
@@ -69,6 +63,35 @@ pm.environment.set("id", "1");`;
       }
     }
   }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      // SAFETY CHECK:
+      // If the focus is inside CodeMirror, our "Prec.highest" extension 
+      // is ALREADY handling this. We must ignore it here to prevent 
+      // double-firing or conflicts.
+      const target = e.target as HTMLElement;
+      if (target.classList.contains('cm-content')) {
+        return; 
+      }
+
+      // If focus is NOT in editor (e.g. URL bar), run the request manually
+      e.preventDefault();
+      handleSend();
+    }
+  }
+
+  const sendShortcut = Prec.highest(
+    keymap.of([
+      {
+        key: "Mod-Enter", // Works as Ctrl-Enter on Linux/Windows, Cmd-Enter on Mac
+        run: () => {
+          handleSend();
+          return true; // "True" tells CodeMirror: STOP here, do not insert new line
+        }
+      }
+    ])
+  );
 
   // 2. CUSTOM THEME TO MAKE EDITOR TRANSPARENT (So it blends with your Glass UI)
   const transparentTheme = EditorView.theme({
@@ -140,6 +163,7 @@ pm.environment.set("id", "1");`;
             extensions={[
               transparentTheme,
               history(),
+              sendShortcut,
               keymap.of([...defaultKeymap, ...historyKeymap])
             ]}
             styles={{ "&": { height: "100%" } }}
@@ -152,6 +176,7 @@ pm.environment.set("id", "1");`;
             extensions={[
               transparentTheme,
               history(),
+              sendShortcut,
               keymap.of([...defaultKeymap, ...historyKeymap])
             ]}
             styles={{ "&": { height: "100%" } }}
