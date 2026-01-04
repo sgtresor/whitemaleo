@@ -52,6 +52,7 @@ async fn make_request(request: HttpRequest) -> Result<String, String> {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
         .invoke_handler(tauri::generate_handler![make_request])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

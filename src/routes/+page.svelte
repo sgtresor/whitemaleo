@@ -1,5 +1,6 @@
 <svelte:window on:keydown={handleKeydown} />
 <script lang="ts">
+  import { Store } from '@tauri-apps/plugin-store';
   import { executeRequest } from '$lib/requestLogic'; 
   import { getCurrentWindow } from '@tauri-apps/api/window';
   import { onMount } from 'svelte';
@@ -26,9 +27,54 @@ pm.environment.set("id", "1");`;
   let appWindow: any;
   let activeRequestId = 0;
 
-  onMount(() => {
+  // feature: auto save
+  let store: Store | null = null; 
+  let saveTimer: any = null;
+
+  onMount(async () => {
     appWindow = getCurrentWindow();
+
+    try {
+      store = await Store.load('settings.dat');
+
+      const savedUrl = await store.get<string>("url");
+      const savedMethod = await store.get<string>("method");
+      const savedBody = await store.get<string>("body");
+      const savedScript = await store.get<string>("script");
+      
+      if (savedUrl) url = savedUrl;
+      if (savedMethod) method = savedMethod;
+      if (savedBody) body = savedBody;
+      if (savedScript) script = savedScript;
+    } catch (err) {
+      console.error("Failed to load settings:", err);
+    }
   });
+
+  // Whenever these variables change, schedule a save.
+  $: {
+    if (store) {
+      triggerSave(url, method, body, script);
+    }
+  }
+
+  function triggerSave(u: string, m: string, b: string, s: string) {
+    if (saveTimer) clearTimeout(saveTimer);
+    
+    // Wait 1 second after typing stops
+    saveTimer = setTimeout(async () => {
+      try {
+        if (!store) return;
+        await store.set("url", u);
+        await store.set("method", m);
+        await store.set("body", b);
+        await store.set("script", s);
+        await store.save();
+      } catch (err) {
+        console.error("Auto-save failed:", err);
+      }
+    }, 1000);
+  }
 
   const headers = { "Content-Type": "application/json" };
 
