@@ -25,6 +25,8 @@ pm.environment.set("id", "1");`;
   let activeTab = "body";
   let appWindow: any;
   let activeRequestId = 0;
+  let bodyView: EditorView;
+  let scriptView: EditorView;
 
   // feature: auto save
   let store: Store | null = null;
@@ -110,10 +112,13 @@ pm.environment.set("id", "1");`;
   }
 
   function handleClear() {
-    if (activeTab === "body") {
-      body = "";
-    } else {
-      script = "";
+    const view = activeTab === "body" ? bodyView : scriptView;
+    if (view) {
+      view.dispatch({
+        changes: { from: 0, to: view.state.doc.length, insert: "" },
+      });
+      // Focus back on editor
+      view.focus();
     }
   }
 
@@ -336,6 +341,7 @@ pm.environment.set("id", "1");`;
               extensions={editorExtensions}
               class="h-full"
               styles={editorStyles}
+              onready={(v) => (bodyView = v)}
             />
           {:else}
             <CodeMirror
@@ -345,6 +351,7 @@ pm.environment.set("id", "1");`;
               extensions={editorExtensions}
               class="h-full"
               styles={editorStyles}
+              onready={(v) => (scriptView = v)}
             />
           {/if}
         </div>
