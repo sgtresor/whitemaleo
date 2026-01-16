@@ -158,12 +158,12 @@ pm.environment.set("id", "1");`;
       height: "100% !important",
     },
     ".cm-gutters": {
-      backgroundColor: "rgba(0,0,0,0.2) !important",
+      backgroundColor: "rgba(9, 9, 11, 0.8) !important", // More opaque dark background
       color: "#52525b", // Zinc-600 for line numbers
       border: "none",
-      backdropFilter: "blur(4px)",
+      backdropFilter: "blur(8px)", // Stronger blur
       borderRight: "1px solid rgba(255,255,255,0.05)",
-      zIndex: "10",
+      zIndex: "50", // Higher z-index to enforce stacking
     },
   });
 
