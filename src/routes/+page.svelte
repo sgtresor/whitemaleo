@@ -166,6 +166,17 @@ pm.environment.set("id", "1");`;
       zIndex: "10",
     },
   });
+
+  const editorExtensions = [
+    transparentTheme,
+    history(),
+    sendShortcut,
+    keymap.of([...defaultKeymap, ...historyKeymap]),
+  ];
+
+  const editorStyles = {
+    "&": { height: "100%", maxHeight: "100%" },
+  };
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -322,28 +333,18 @@ pm.environment.set("id", "1");`;
               bind:value={body}
               lang={json()}
               theme={oneDark}
-              extensions={[
-                transparentTheme,
-                history(),
-                sendShortcut,
-                keymap.of([...defaultKeymap, ...historyKeymap]),
-              ]}
+              extensions={editorExtensions}
               class="h-full"
-              styles={{ "&": { height: "100%", maxHeight: "100%" } }}
+              styles={editorStyles}
             />
           {:else}
             <CodeMirror
               bind:value={script}
               lang={javascript()}
               theme={oneDark}
-              extensions={[
-                transparentTheme,
-                history(),
-                sendShortcut,
-                keymap.of([...defaultKeymap, ...historyKeymap]),
-              ]}
+              extensions={editorExtensions}
               class="h-full"
-              styles={{ "&": { height: "100%", maxHeight: "100%" } }}
+              styles={editorStyles}
             />
           {/if}
         </div>
