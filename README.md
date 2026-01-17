@@ -54,6 +54,11 @@ To ensure code consistency and quality, we use **ESLint** and **Prettier**.
     bun lint
     ```
 
+-   **Run Tests:** (Executes unit tests with Vitest)
+    ```bash
+    bun test
+    ```
+
 ## 🛠 Features
 
 ### Core Request Engine
