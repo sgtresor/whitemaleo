@@ -40,6 +40,20 @@ Ensure you have the following installed on your Linux machine:
     bun tauri dev
     ```
 
+## 👩‍💻 Development Workflows
+
+To ensure code consistency and quality, we use **ESLint** and **Prettier**.
+
+-   **Format Code:** (Auto-fixes styling issues like indentation and quotes)
+    ```bash
+    bun format
+    ```
+
+-   **Check Code Quality:** (Runs linter to catch unused variables and errors)
+    ```bash
+    bun lint
+    ```
+
 ## 🛠 Features
 
 ### Core Request Engine
