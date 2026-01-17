@@ -8,11 +8,11 @@ WhiteMaleo is a native desktop alternative to Postman. It strips away the cloud 
 
 ## 🏗 Tech Stack
 
-* **Core:** [Tauri v2](https://v2.tauri.app/) (Rust + Webview)
-* **Frontend:** [SvelteKit](https://kit.svelte.dev/) + TypeScript
-* **State Management:** [Tauri Store Plugin](https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins/store) (Local Persistence)
-* **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Zinc & Rose "Maleo" Theme)
-* **Editor:** [CodeMirror 6](https://codemirror.net/) (Custom Extensions)
+- **Core:** [Tauri v2](https://v2.tauri.app/) (Rust + Webview)
+- **Frontend:** [SvelteKit](https://kit.svelte.dev/) + TypeScript
+- **State Management:** [Tauri Store Plugin](https://github.com/tauri-apps/plugins-workspace/tree/v2/plugins/store) (Local Persistence)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Zinc & Rose "Maleo" Theme)
+- **Editor:** [CodeMirror 6](https://codemirror.net/) (Custom Extensions)
 
 ## ⚡ Prerequisites
 
@@ -29,6 +29,7 @@ Ensure you have the following installed on your Linux machine:
 ## 🚀 Getting Started
 
 1.  **Install Frontend Dependencies:**
+
     ```bash
     bun install
     ```
@@ -39,28 +40,46 @@ Ensure you have the following installed on your Linux machine:
     bun tauri dev
     ```
 
+## 👩‍💻 Development Workflows
+
+To ensure code consistency and quality, we use **ESLint** and **Prettier**.
+
+-   **Format Code:** (Auto-fixes styling issues like indentation and quotes)
+    ```bash
+    bun format
+    ```
+
+-   **Check Code Quality:** (Runs linter to catch unused variables and errors)
+    ```bash
+    bun lint
+    ```
+
 ## 🛠 Features
 
 ### Core Request Engine
-* **Methods:** GET, POST, PUT, DELETE.
-* **Pre-Request Scripts:** JavaScript sandbox to set environment variables (e.g., `pm.environment.set("id", "1")`).
-* **Response Viewer:** Syntax-highlighted JSON viewer with keyboard navigation support.
+
+- **Methods:** GET, POST, PUT, DELETE.
+- **Pre-Request Scripts:** JavaScript sandbox to set environment variables (e.g., `pm.environment.set("id", "1")`).
+- **Response Viewer:** Syntax-highlighted JSON viewer with keyboard navigation support.
 
 ### Advanced Editor
-* **CodeMirror 6:** Full integration for JSON Body and Scripts.
-* **Undo/Redo:** Native `Ctrl + Z` and `Ctrl + Shift + Z` support.
-* **Smart Shortcuts:**
-    * `Ctrl + Enter`: Send Request (or Cancel if loading).
-    * Prevents accidental newlines when sending.
+
+- **CodeMirror 6:** Full integration for JSON Body and Scripts.
+- **Undo/Redo:** Native `Ctrl + Z` and `Ctrl + Shift + Z` support.
+- **Smart Shortcuts:**
+  - `Ctrl + Enter`: Send Request (or Cancel if loading).
+  - Prevents accidental newlines when sending.
 
 ### Persistence (Auto-Save)
-* **Local Storage:** Automatically saves your work to `settings.dat` locally.
-* **Debounced Save:** Writes to disk 1 second after you stop typing to ensure performance.
-* **Restores State:** Remembers your URL, Method, Body, and Script on app restart.
+
+- **Local Storage:** Automatically saves your work to `settings.dat` locally.
+- **Debounced Save:** Writes to disk 1 second after you stop typing to ensure performance.
+- **Restores State:** Remembers your URL, Method, Body, and Script on app restart.
 
 ### Visuals
-* **Glass-morphism:** Custom translucent window with blur effects.
-* **Custom Title Bar:** Integrated window controls (Minimize, Maximize, Close) that blend with the theme.
+
+- **Glass-morphism:** Custom translucent window with blur effects.
+- **Custom Title Bar:** Integrated window controls (Minimize, Maximize, Close) that blend with the theme.
 
 ## 📦 Building for Release
 
