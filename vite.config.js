@@ -31,7 +31,13 @@ export default defineConfig(async () => ({
 	},
 	test: {
 		include: ["src/**/*.{test,spec}.{js,ts}"],
-		environment: "jsdom",
-		globals: true
+		environment: "happy-dom",
+		globals: true,
+		setupFiles: ["src/vitest-setup.ts"],
+		server: {
+			deps: {
+				inline: ["svelte"]
+			}
+		}
 	}
 }));
